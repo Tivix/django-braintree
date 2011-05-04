@@ -21,8 +21,11 @@ setup(
     zip_safe=False,
     install_requires=[
         'Django>=1.2.3',
-        'South==0.7.2'
+        'South==0.7.2',
+        'braintree>=2.10.0',
+        'django_common==0.1'
     ],
+    dependency_links=["git://github.com/Tivix/django-common.git@a08496add8ac9a2b358a#egg=django_common-0.1"],
     # test_suite = 'django_braintree.tests',
     include_package_data=True,
     # cmdclass={},
