@@ -1,0 +1,37 @@
+{# Requires including the js from django_common that enables ajax forms etc. #}
+
+
+<div id="payments_billing">
+    <h2>Your billing information</h2>
+    {% if current_cc_info %}
+        <ul id="cc_details">
+            {% include 'django_braintree/fragments/current_cc_info.html' %}
+            <li><a href="#" class="button" onclick="toggle();">Change</a></li>
+        </ul>
+    {% endif %}
+    
+    <form class="{% if current_cc_info %}hide{% endif %}" action="{% url payments_billing %}" method="POST" id="id_update_cc_form">{% csrf_token %}
+        {% include 'django_braintree/fragments/cc_form.html' %}
+        
+        <input type="submit" value="Save" />
+        
+        {% if current_cc_info %}
+            <a class="cancel" href="#" onclick="toggle();">Cancel</a>
+        {% endif %}
+    </form>
+</div>
+
+{% include 'app/fragments/ssl_seals.html' %}
+
+<script type="text/javascript">
+	$(function() {
+        (new FormHelper('id_update_cc_form')).bind_for_ajax(function(data) {
+    	    window.location = '{% url payments_billing %}';
+        });
+    });
+    
+    function toggle() {
+        $('#cc_details').toggle();
+        $('#id_update_cc_form').toggle();
+    }
+</script>

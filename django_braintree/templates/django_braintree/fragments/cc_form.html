@@ -1,0 +1,8 @@
+{% load custom_tags %}
+
+{% render_form_field cc_form.name %}
+{% render_form_field cc_form.cc_number %}
+{% render_form_field cc_form.expiration_month %}
+{% render_form_field cc_form.expiration_year %}
+{% render_form_field cc_form.zip_code %}
+{% render_form_field cc_form.cvv 'The 3 digit code at the back of your card. For AMEX, its the 4 digit code on the front of the card.' %}

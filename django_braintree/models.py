@@ -1,5 +1,10 @@
+import logging
+from decimal import Decimal
+
 from django.db import models
 from django.contrib.auth.models import User
+
+from braintree import Transaction
 
 
 class UserVaultManager(models.Manager):
@@ -33,7 +38,31 @@ class UserVault(models.Model):
     objects = UserVaultManager()
     
     def __unicode__(self):
-        return user
+        return self.user.username
+    
+    def charge_user_and_get_tid(self, amount):
+        """
+        Charges the users credit card, with he passed $amount, if they are in the vault. Returns the transaction id
+        or None (if charge fails etc.)
+        """
+        try:
+            result = Transaction.sale(
+                {
+                    'amount': amount.quantize(Decimal('.01')),
+                    'customer_id': self.vault_id,
+                    "options": {
+                        "submit_for_settlement": True
+                    }
+                }
+            )
+
+            if result.is_success:
+                return result.transaction.id
+            else:
+                raise Exception('Logical error in CC transaction')
+        except Exception:
+            logging.error('Failed to charge $%s to user: %s with vault_id: %s' % (amount, self.user, self.vault_id))
+            return None
 
 class PaymentLog(models.Model):
     """
