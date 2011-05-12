@@ -40,9 +40,9 @@ class UserVault(models.Model):
     def __unicode__(self):
         return self.user.username
     
-    def charge_user_and_get_tid(self, amount):
+    def charge(self, amount):
         """
-        Charges the users credit card, with he passed $amount, if they are in the vault. Returns the transaction id
+        Charges the users credit card, with he passed $amount, if they are in the vault. Returns the payment_log instance
         or None (if charge fails etc.)
         """
         try:
@@ -58,8 +58,8 @@ class UserVault(models.Model):
 
             if result.is_success:
                 # create a payment log
-                PaymentLog.objects.create(user=self.user, amount=amount, transaction_id=result.transaction.id)
-                return result.transaction.id
+                payment_log = PaymentLog.objects.create(user=self.user, amount=amount, transaction_id=result.transaction.id)
+                return payment_log
             else:
                 raise Exception('Logical error in CC transaction')
         except Exception:
