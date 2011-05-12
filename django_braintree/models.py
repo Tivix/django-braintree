@@ -57,6 +57,8 @@ class UserVault(models.Model):
             )
 
             if result.is_success:
+                # create a payment log
+                PaymentLog.objects.create(user=self.user, amount=amount, transaction_id=result.transaction.id)
                 return result.transaction.id
             else:
                 raise Exception('Logical error in CC transaction')
