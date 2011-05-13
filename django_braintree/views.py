@@ -5,6 +5,7 @@ from django.contrib import messages
 from braintree import Customer
 from django_common.http import JsonResponse
 from django_common.helper import form_errors_serialize
+from django_common.decorators import ssl_required
 
 from django_braintree.forms import UserCCDetailsForm
 from django_braintree.models import UserVault
@@ -12,6 +13,7 @@ from django_braintree.models import UserVault
 
 BAD_CC_ERROR_MSG = 'Oops! Doesn\'t seem like your Credit Card details are correct. Please re-check and try again.'
 
+@ssl_required()
 @login_required
 def payments_billing(request, template='django_braintree/payments_billing.html'):
     """
