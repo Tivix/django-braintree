@@ -1,4 +1,4 @@
-{# Requires including the js from django_common that enables ajax forms etc. If a template variable cc_form_post_url is passed to the template then this form posts to it, otherwise it posts to the url 'payments_billing'. #}
+{# Requires including the js from django_common that enables ajax forms etc. If a template variable cc_form_post_url is passed to the template then this form posts to it, otherwise it posts to the url 'payments_billing'. If a template variable cc_form_success_redirect_url is passed it takes user to that url then after form post has succeeded. #}
 
 
 <div id="payments_billing">
@@ -25,7 +25,7 @@
 <script type="text/javascript">
 	$(function() {
         (new FormHelper('id_update_cc_form')).bind_for_ajax(function(data) {
-    	    window.location = '{% url payments_billing %}';
+    	    window.location = '{% if cc_form_success_redirect_url %}{{ cc_form_success_redirect_url }}{% else %}{% url payments_billing %}{% endif %}';
         });
     });
     
