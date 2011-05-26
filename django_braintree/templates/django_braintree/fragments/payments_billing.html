@@ -1,4 +1,4 @@
-{# Requires including the js from django_common that enables ajax forms etc. #}
+{# Requires including the js from django_common that enables ajax forms etc. If a template variable cc_form_post_url is passed to the template then this form posts to it, otherwise it posts to the url 'payments_billing'. #}
 
 
 <div id="payments_billing">
@@ -10,7 +10,7 @@
         </ul>
     {% endif %}
     
-    <form class="{% if current_cc_info %}hide{% endif %}" action="{% url payments_billing %}" method="POST" id="id_update_cc_form">{% csrf_token %}
+    <form class="{% if current_cc_info %}hide{% endif %}" action="{% if cc_form_post_url %}{{ cc_form_post_url }}{% else %}{% url payments_billing %}{% endif %}" method="POST" id="id_update_cc_form">{% csrf_token %}
         {% include 'django_braintree/fragments/cc_form.html' %}
         
         <input type="submit" value="Save" />
