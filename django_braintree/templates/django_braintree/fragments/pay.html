@@ -1,0 +1,24 @@
+{# template that lets the user just pay $'s either via a stored CC in vault or through form. Required template variables are cc_form_post_url (the form/post request posts to it) and cc_form_success_redirect_url (takes user to that url then after form/post request has succeeded). #}
+
+<div id="payments_billing">
+    {% if current_cc_info %}
+        <ul id="cc_details">
+            {% include 'django_braintree/fragments/current_cc_info.html' %}
+            <li><a href="#" class="button" onclick="toggle();">Change</a></li>
+        </ul>
+    {% else %}
+        <form class="{% if current_cc_info %}hide{% endif %}" action="{{ cc_form_post_url }}{% url payments_billing %}{% endif %}" method="POST" id="id_pay_cc_form">{% csrf_token %}
+            {% include 'django_braintree/fragments/cc_form.html' %}
+            
+            <input type="submit" value="Submit and pay" />
+        </form>
+    {% endif %}
+</div>
+
+<script type="text/javascript">
+	$(function() {
+        (new FormHelper('id_pay_cc_form')).bind_for_ajax(function(data) {
+    	    window.location = '{{ cc_form_success_redirect_url }}';
+        });
+    });
+</script>
