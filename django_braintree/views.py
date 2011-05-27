@@ -36,7 +36,7 @@ def payments_billing(request, template='django_braintree/payments_billing.html')
         return JsonResponse(success=False, data={'form': form_errors_serialize(form)})
     else:
         if UserVault.objects.is_in_vault(request.user):
-            response = Customer.find(UserVault.objects.get_user_vault_instance_or_none(request.user))
+            response = Customer.find(UserVault.objects.get_user_vault_instance_or_none(request.user).vault_id)
             d['current_cc_info'] = response.credit_cards[0]
         d['cc_form'] = UserCCDetailsForm(request.user)
     

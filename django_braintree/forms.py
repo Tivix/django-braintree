@@ -55,7 +55,7 @@ class UserCCDetailsForm(forms.Form):
         this form is meant for rendering to the user, hence initialize with braintree data (if any).
         """
         self.__user = user
-        self.__user_vault = UserVault.objects.get_user_vault_instance_or_none(user)
+        self.__user_vault = UserVault.objects.get_user_vault_instance_or_none(user).vault_id
         
         if not post_to_update and self.__user_vault and not args:
             logging.debug('Looking up payment info for vault_id: %s' % self.__user_vault)
