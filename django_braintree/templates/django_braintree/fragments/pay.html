@@ -7,7 +7,7 @@
             <li><a href="#" class="button" onclick="toggle();">Change</a></li>
         </ul>
     {% else %}
-        <form class="{% if current_cc_info %}hide{% endif %}" action="{{ cc_form_post_url }}{% url payments_billing %}{% endif %}" method="POST" id="id_pay_cc_form">{% csrf_token %}
+        <form class="{% if current_cc_info %}hide{% endif %}" action="{{ cc_form_post_url }}" method="POST" id="id_pay_cc_form">{% csrf_token %}
             {% include 'django_braintree/fragments/cc_form.html' %}
             
             <input type="submit" value="Submit and pay" />
