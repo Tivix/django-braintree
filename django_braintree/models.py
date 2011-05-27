@@ -17,7 +17,7 @@ class UserVaultManager(models.Manager):
         if qset.count() > 1:
             raise Exception('This app does not currently support multiple vault ids')
         
-        return qset.get().vault_id
+        return qset.get()
     
     def is_in_vault(self, user):
         return True if self.filter(user=user) else False

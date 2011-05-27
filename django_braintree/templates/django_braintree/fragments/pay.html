@@ -4,7 +4,7 @@
     {% if current_cc_info %}
         <ul id="cc_details">
             {% include 'django_braintree/fragments/current_cc_info.html' %}
-            <li><a href="#" class="button" onclick="toggle();">Change</a></li>
+            <li><a href="{% url payments_billing %}" class="button">Change</a></li>
         </ul>
     {% else %}
         <form class="{% if current_cc_info %}hide{% endif %}" action="{{ cc_form_post_url }}" method="POST" id="id_pay_cc_form">{% csrf_token %}
