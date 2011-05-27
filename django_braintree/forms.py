@@ -55,12 +55,12 @@ class UserCCDetailsForm(forms.Form):
         this form is meant for rendering to the user, hence initialize with braintree data (if any).
         """
         self.__user = user
-        self.__user_vault = UserVault.objects.get_user_vault_instance_or_none(user).vault_id
+        self.__user_vault = UserVault.objects.get_user_vault_instance_or_none(user)
         
         if not post_to_update and self.__user_vault and not args:
-            logging.debug('Looking up payment info for vault_id: %s' % self.__user_vault)
+            logging.debug('Looking up payment info for vault_id: %s' % self.__user_vault.vault_id)
             
-            response = Customer.find(self.__user_vault)
+            response = Customer.find(self.__user_vault.vault_id)
             info = response.credit_cards[0]
             
             initial = {
@@ -107,7 +107,7 @@ class UserCCDetailsForm(forms.Form):
         
         if self.__user_vault:
             # get customer info, its credit card and then update that credit card
-            response = Customer.find(self.__user_vault)
+            response = Customer.find(self.__user_vault.vault_id)
             cc_info = response.credit_cards[0]
             return CreditCard.update(cc_info.token, params=cc_details_map)
         else:
