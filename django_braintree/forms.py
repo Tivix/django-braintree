@@ -118,6 +118,7 @@ class UserCCDetailsForm(forms.Form):
                 return CreditCard.update(cc_info.token, params=cc_details_map)
             except Exception, e:
                 logging.error('Was not able to get customer from vault. %s' % e)
+                self.__user_vault.delete()  # delete the stale instance from our db
         
         # in case the above updating fails or user was never in the vault
         new_customer_vault_id = '%s%s' % (prepend_vault_id, md5_hash()[:24])
