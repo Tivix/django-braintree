@@ -42,7 +42,7 @@ def payments_billing(request, template='django_braintree/payments_billing.html')
                 response = Customer.find(UserVault.objects.get_user_vault_instance_or_none(request.user).vault_id)
                 d['current_cc_info'] = response.credit_cards[0]
             except Exception, e:
-                logging.log('Unable to get vault information for user from braintree. %s' % e)
+                logging.error('Unable to get vault information for user from braintree. %s' % e)
         d['cc_form'] = UserCCDetailsForm(request.user)
     
     return render(request, template, d)
