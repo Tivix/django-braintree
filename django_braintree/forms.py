@@ -111,18 +111,22 @@ class UserCCDetailsForm(forms.Form):
         }
         
         if self.__user_vault:
-            # get customer info, its credit card and then update that credit card
-            response = Customer.find(self.__user_vault.vault_id)
-            cc_info = response.credit_cards[0]
-            return CreditCard.update(cc_info.token, params=cc_details_map)
-        else:
-            new_customer_vault_id = '%s%s' % (prepend_vault_id, md5_hash()[:24])
-            respone = Customer.create({    # creating a customer, but we really just want to store their CC details
-                'id': new_customer_vault_id,   # vault id, uniquely identifies customer. We're not caring about tokens (used for storing multiple CC's per user)
-                'credit_card': cc_details_map
-            })
-            
-            if respone.is_success:  # save a new UserVault instance
-                UserVault.objects.create(user=self.__user, vault_id=new_customer_vault_id)
-            
-            return respone
+            try:
+                # get customer info, its credit card and then update that credit card
+                response = Customer.find(self.__user_vault.vault_id)
+                cc_info = response.credit_cards[0]
+                return CreditCard.update(cc_info.token, params=cc_details_map)
+            except Exception, e:
+                logging.error('Was not able to get customer from vault. %s' % e)
+        
+        # in case the above updating fails or user was never in the vault
+        new_customer_vault_id = '%s%s' % (prepend_vault_id, md5_hash()[:24])
+        respone = Customer.create({    # creating a customer, but we really just want to store their CC details
+            'id': new_customer_vault_id,   # vault id, uniquely identifies customer. We're not caring about tokens (used for storing multiple CC's per user)
+            'credit_card': cc_details_map
+        })
+        
+        if respone.is_success:  # save a new UserVault instance
+            UserVault.objects.create(user=self.__user, vault_id=new_customer_vault_id)
+        
+        return respone
