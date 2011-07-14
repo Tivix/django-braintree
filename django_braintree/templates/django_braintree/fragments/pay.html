@@ -18,7 +18,13 @@
 <script type="text/javascript">
 	$(function() {
         (new FormHelper('id_pay_cc_form')).bind_for_ajax(function(data) {
-    	    window.location = '{{ cc_form_success_redirect_url }}';
+            {% if cc_form_success_redirect_url %}
+    	        window.location = '{{ cc_form_success_redirect_url }}';
+    	    {% else %}
+    	        if (data.cc_form_success_redirect_url) {
+    	            window.location = data.cc_form_success_redirect_url;
+    	        }
+    	    {% endif %}
         });
     });
 </script>
