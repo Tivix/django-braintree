@@ -21,7 +21,7 @@ setup(
     zip_safe=False,
     install_requires=[
         'Django>=1.2.3',
-        'South==0.7.2',
+        'South>=0.7.2',
         'braintree>=2.10.0',
         'django_common==0.1'
     ],
