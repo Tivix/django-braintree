@@ -60,17 +60,22 @@ class UserCCDetailsForm(forms.Form):
         if not post_to_update and self.__user_vault and not args:
             logging.debug('Looking up payment info for vault_id: %s' % self.__user_vault.vault_id)
             
-            response = Customer.find(self.__user_vault.vault_id)
-            info = response.credit_cards[0]
-            
-            initial = {
-                'name': info.cardholder_name,
-                'cc_number': info.masked_number,
-                'expiration_month': int(info.expiration_month),
-                'expiration_year': info.expiration_year,
-                'zip_code': info.billing_address.postal_code,
-            }
-            super(UserCCDetailsForm, self).__init__(initial=initial, *args, **kwargs)
+            try:
+                response = Customer.find(self.__user_vault.vault_id)
+                info = response.credit_cards[0]
+
+                initial = {
+                    'name': info.cardholder_name,
+                    'cc_number': info.masked_number,
+                    'expiration_month': int(info.expiration_month),
+                    'expiration_year': info.expiration_year,
+                    'zip_code': info.billing_address.postal_code,
+                }
+                super(UserCCDetailsForm, self).__init__(initial=initial, *args, **kwargs)
+            except Exception, e:
+                logging.error('Was not able to get customer from vault. %s' % e)
+                super(UserCCDetailsForm, self).__init__(initial = {'name': '%s %s' % (user.first_name, user.last_name)},
+                    *args, **kwargs)
         else:
             super(UserCCDetailsForm, self).__init__(initial = {'name': '%s %s' % (user.first_name, user.last_name)},
                 *args, **kwargs)
