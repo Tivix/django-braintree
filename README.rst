@@ -32,7 +32,7 @@ Installation
         BRAINTREE_PRIVATE_KEY
     )
 
-- Add this to urls.py::
+- Add url to urls.py::
 
     url(r'', include('django_braintree.urls')),
     
@@ -42,7 +42,7 @@ Installation
 Additional Information
 ----------------------
     
-- Braintree uses default templates:
+- Braintree uses default templates::
     
     django_braintree/payments_billing.html
     django_braintree/fragments/cc_form.html
@@ -51,8 +51,8 @@ Additional Information
     django_braintree/fragments/payments_billing.html
     
 - Braintree requires including the js from ``django_common`` that enables ajax forms etc. ``django_common`` is available at https://github.com/Tivix/django-common
-- If a template variable cc_form_post_url is passed to the template then this form posts to it, otherwise it posts to the url 'payments_billing'.
-- If a template variable cc_form_success_redirect_url is passed it takes user to that url then after form post has succeeded.
-- Braintree is set up to sandbox mode at default. To change this you must switch Environment.Sandbox to Environment.Production in settings file.
+- If a template variable ``cc_form_post_url`` is passed to the template then this form posts to it, otherwise it posts to the url ``payments_billing``.
+- If a template variable ``cc_form_success_redirect_url`` is passed it takes user to that url then after form post has succeeded.
+- Braintree is set up to sandbox mode at default. To change this you must switch ``Environment.Sandbox`` to ``Environment.Production`` in settings file.
 
 This opensource app is brought to you by Tivix, Inc. ( http://tivix.com/ )
