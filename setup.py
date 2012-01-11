@@ -10,13 +10,24 @@ except ImportError:
     from setuptools.command.test import test
 
 
+import os
+
+here = os.path.dirname(os.path.abspath(__file__))
+f = open(os.path.join(here,  'README.rst'))
+long_description = f.read().strip()
+f.close()
+
+
+
 setup(
-    name='django-braintree',
+    name='tivix-django-braintree',
     version='0.1',
     author='Sumit Chachra',
     author_email='chachra@tivix.com',
     url='http://github.com/tivix/django-braintree',
     description = 'An easy way to integrate with Braintree Payment Solutions from Django.',
+    long_description=long_description,
+    keywords = 'django braintree payment',
     packages=find_packages(),
     zip_safe=False,
     install_requires=[
