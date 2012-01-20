@@ -23,7 +23,8 @@ setup(
         'Django>=1.2.3',
         'South>=0.7.2',
         'braintree>=2.10.0',
-        'django_common==0.1'
+        'django_common==0.1',
+        'fudge==1.0.3'
     ],
     dependency_links=["git://github.com/Tivix/django-common.git@91e23cd5e0e8b420e8d4#egg=django_common-0.1"],
     # test_suite = 'django_braintree.tests',
