@@ -27,7 +27,7 @@ Installation
 
     Configuration.configure(
         Environment.Sandbox,
-        BRAINTREE_MERCHANT_ID,
+        BRAINTREE_MERCHANT,
         BRAINTREE_PUBLIC_KEY,
         BRAINTREE_PRIVATE_KEY
     )
