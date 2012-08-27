@@ -20,7 +20,7 @@ f.close()
 
 setup(
     name='tivix-django-braintree',
-    version='0.1',
+    version='0.1.1',
     author='Sumit Chachra',
     author_email='chachra@tivix.com',
     url='http://github.com/tivix/django-braintree',
