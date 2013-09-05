@@ -20,7 +20,7 @@ f.close()
 
 setup(
     name='tivix-django-braintree',
-    version='0.1.1',
+    version='0.1.2',
     author='Sumit Chachra',
     author_email='chachra@tivix.com',
     url='http://github.com/tivix/django-braintree',
@@ -30,7 +30,7 @@ setup(
     packages=find_packages(),
     zip_safe=False,
     install_requires=[
-        'Django>=1.2.3',
+        'Django>=1.4.0',
         'South>=0.7.2',
         'braintree>=2.10.0',
         'django-common>=0.1',
