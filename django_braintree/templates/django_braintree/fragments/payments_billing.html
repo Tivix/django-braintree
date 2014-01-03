@@ -9,12 +9,12 @@
             <li><a href="#" class="button" onclick="toggle();">Change</a></li>
         </ul>
     {% endif %}
-    
-    <form class="{% if current_cc_info %}hide{% endif %}" action="{% if cc_form_post_url %}{{ cc_form_post_url }}{% else %}{% url payments_billing %}{% endif %}" method="POST" id="id_update_cc_form">{% csrf_token %}
+
+    <form class="{% if current_cc_info %}hide{% endif %}" action="{% if cc_form_post_url %}{{ cc_form_post_url }}{% else %}{% url 'payments_billing' %}{% endif %}" method="POST" id="id_update_cc_form">{% csrf_token %}
         {% include 'django_braintree/fragments/cc_form.html' %}
-        
+
         <input type="submit" value="Save" />
-        
+
         {% if current_cc_info %}
             <a class="cancel" href="#" onclick="toggle();">Cancel</a>
         {% endif %}
@@ -25,10 +25,10 @@
 <script type="text/javascript">
 	$(function() {
         (new FormHelper('id_update_cc_form')).bind_for_ajax(function(data) {
-    	    window.location = '{% if cc_form_success_redirect_url %}{{ cc_form_success_redirect_url }}{% else %}{% url payments_billing %}{% endif %}';
+    	    window.location = '{% if cc_form_success_redirect_url %}{{ cc_form_success_redirect_url }}{% else %}{% url 'payments_billing' %}{% endif %}';
         });
     });
-    
+
     function toggle() {
         $('#cc_details').toggle();
         $('#id_update_cc_form').toggle();
